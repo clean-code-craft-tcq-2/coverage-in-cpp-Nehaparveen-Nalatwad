@@ -4,7 +4,7 @@
 class ClassifyTemp
 {
 public:
-    virtual BreachType classifyTempLevel() = 0;
+    virtual BreachType classifyTempLevel(double temperatureInC) = 0;
 };
 
 class PassiveCooling : public ClassifyTemp
