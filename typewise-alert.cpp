@@ -1,6 +1,5 @@
 #include "typewise-alert.h"
 #include <stdio.h>
-#include <map>
 
 class ClassifyTemp
 {
@@ -47,19 +46,7 @@ BreachType inferBreach(double value, double lowerLimit, double upperLimit) {
 
 BreachType classifyTemperatureBreach(
     CoolingType coolingType, double temperatureInC) {
-     map<CoolingType, ClassifyTemp*> Strategies;
-
-    ClassifyTemp* passiveCool = new PassiveCooling();
-    Strategies[PASSIVE_COOLING] = passiveCool;
-
-    ClassifyTemp* hiActiveCool = new HiActiveCooling();
-    Strategies[HI_ACTIVE_COOLING] = hiActiveCool;
-
-    ClassifyTemp* medActiveCool = new MediumCooling();
-    Strategies[MED_ACTIVE_COOLING] = medActiveCool;
-  
-    map<CoolingType, ClassifyTemp*>::iterator itr = Strategies.find(coolingType);
-    itr->second->classifyTempLevel(temperatureInC);
+    ClassifyTemp.classifyTempLevel(temperatureInC)
 }
 
 void checkAndAlert(
