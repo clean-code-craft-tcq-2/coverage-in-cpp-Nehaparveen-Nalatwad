@@ -1,6 +1,39 @@
 #include "typewise-alert.h"
 #include <stdio.h>
 
+class ClassifyTemp
+{
+public:
+    virtual BreachType classifyTempLevel(double temperatureInC) = 0;
+};
+
+class PassiveCooling : public ClassifyTemp
+{
+public:
+    BreachType classifyTempLevel(double temperatureInC)
+    {
+	return inferBreach(temperatureInC, 0, 35);
+    }
+};
+
+class HiActiveCooling : public ClassifyTemp
+{
+public:
+    BreachType classifyTempLevel(double temperatureInC)
+    {
+	return inferBreach(temperatureInC, 40, 45);
+    }
+};
+
+class MedActiveCooling : public ClassifyTemp
+{
+public:
+    BreachType classifyTempLevel(double temperatureInC)
+    {
+	return inferBreach(temperatureInC, 35, 40);
+    }
+};
+
 BreachType inferBreach(double value, double lowerLimit, double upperLimit) {
   if(value < lowerLimit) {
     return TOO_LOW;
@@ -13,23 +46,12 @@ BreachType inferBreach(double value, double lowerLimit, double upperLimit) {
 
 BreachType classifyTemperatureBreach(
     CoolingType coolingType, double temperatureInC) {
-  int lowerLimit = 0;
-  int upperLimit = 0;
-  switch(coolingType) {
-    case PASSIVE_COOLING:
-      lowerLimit = 0;
-      upperLimit = 35;
-      break;
-    case HI_ACTIVE_COOLING:
-      lowerLimit = 0;
-      upperLimit = 45;
-      break;
-    case MED_ACTIVE_COOLING:
-      lowerLimit = 0;
-      upperLimit = 40;
-      break;
-  }
-  return inferBreach(temperatureInC, lowerLimit, upperLimit);
+	ClassifyTemp passive = new PassiveCooling();
+	ClassifyTemp hiAcyive = new HiActiveCooling();
+	ClassifyTemp medActive = new MedActiveCooling();
+	passive.classifyTempLevel(temperatureInC);
+	hiAcyive.classifyTempLevel(temperatureInC);
+	medActive.classifyTempLevel(temperatureInC);
 }
 
 void checkAndAlert(
