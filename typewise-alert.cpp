@@ -1,6 +1,39 @@
 #include "typewise-alert.h"
 #include <stdio.h>
 
+class ClassifyTemp
+{
+public:
+    virtual void classifyTempLevel() = 0;
+};
+
+class PassiveCooling : public ClassifyTemp
+{
+public:
+    void classifyTempLevel(double temperatureInC)
+    {
+	return inferBreach(temperatureInC, 0, 35);
+    }
+};
+
+class HiActiveCooling : public ClassifyTemp
+{
+public:
+    void classifyTempLevel(double temperatureInC)
+    {
+	return inferBreach(temperatureInC, 40, 45);
+    }
+};
+
+class MedActiveCooling : public ClassifyTemp
+{
+public:
+    void classifyTempLevel(double temperatureInC)
+    {
+	return inferBreach(temperatureInC, 35, 40);
+    }
+};
+
 BreachType inferBreach(double value, double lowerLimit, double upperLimit) {
   if(value < lowerLimit) {
     return TOO_LOW;
@@ -13,23 +46,19 @@ BreachType inferBreach(double value, double lowerLimit, double upperLimit) {
 
 BreachType classifyTemperatureBreach(
     CoolingType coolingType, double temperatureInC) {
-  int lowerLimit = 0;
-  int upperLimit = 0;
-  switch(coolingType) {
-    case PASSIVE_COOLING:
-      lowerLimit = 0;
-      upperLimit = 35;
-      break;
-    case HI_ACTIVE_COOLING:
-      lowerLimit = 0;
-      upperLimit = 45;
-      break;
-    case MED_ACTIVE_COOLING:
-      lowerLimit = 0;
-      upperLimit = 40;
-      break;
-  }
-  return inferBreach(temperatureInC, lowerLimit, upperLimit);
+     map<CoolingType, ClassifyTemp*> Strategies;
+
+    ClassifyTemp* passiveCool = new PassiveCooling();
+    Strategies[PASSIVE_COOLING] = passiveCool;
+
+    ClassifyTemp* hiActiveCool = new HiActiveCooling();
+    Strategies[HI_ACTIVE_COOLING] = hiActiveCool;
+
+    ClassifyTemp* medActiveCool = new MediumCooling();
+    Strategies[MED_ACTIVE_COOLING] = medActiveCool;
+  
+    map<CoolingType, ClassifyTemp*>::iterator itr = Strategies.find(coolingType);
+    itr->second->classifyTempLevel(temperatureInC);
 }
 
 void checkAndAlert(
