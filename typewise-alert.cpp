@@ -4,13 +4,13 @@
 class ClassifyTemp
 {
 public:
-    virtual void classifyTempLevel() = 0;
+    virtual BreachType classifyTempLevel() = 0;
 };
 
 class PassiveCooling : public ClassifyTemp
 {
 public:
-    void classifyTempLevel(double temperatureInC)
+    BreachType classifyTempLevel(double temperatureInC)
     {
 	return inferBreach(temperatureInC, 0, 35);
     }
@@ -19,7 +19,7 @@ public:
 class HiActiveCooling : public ClassifyTemp
 {
 public:
-    void classifyTempLevel(double temperatureInC)
+    BreachType classifyTempLevel(double temperatureInC)
     {
 	return inferBreach(temperatureInC, 40, 45);
     }
@@ -28,7 +28,7 @@ public:
 class MedActiveCooling : public ClassifyTemp
 {
 public:
-    void classifyTempLevel(double temperatureInC)
+    BreachType classifyTempLevel(double temperatureInC)
     {
 	return inferBreach(temperatureInC, 35, 40);
     }
