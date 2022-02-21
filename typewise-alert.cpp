@@ -46,7 +46,12 @@ BreachType inferBreach(double value, double lowerLimit, double upperLimit) {
 
 BreachType classifyTemperatureBreach(
     CoolingType coolingType, double temperatureInC) {
-    ClassifyTemp.classifyTempLevel(temperatureInC)
+	ClassifyTemp passive = new PassiveCooling();
+	ClassifyTemp hiAcyive = new HiActiveCooling();
+	ClassifyTemp medActive = new MedActiveCooling();
+	passive.classifyTempLevel(temperatureInC);
+	hiAcyive.classifyTempLevel(temperatureInC);
+	medActive.classifyTempLevel(temperatureInC);
 }
 
 void checkAndAlert(
